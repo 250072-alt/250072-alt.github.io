@@ -203,5 +203,148 @@ document.addEventListener('DOMContentLoaded', () => {
         dislike.addEventListener('click', () => vote(dislike, dislikeCount, like, likeCount));
     });
 });
+        const music = document.getElementById('background-music');
+        const musicBtn = document.getElementById('musicToggle');
+        music.volume = 0.4;
+        if (music && musicBtn) {
+        function updateMusicBtn() {
+            const playing = !music.paused;
+            musicBtn.textContent = playing ? '❚❚' : '▶';
+            musicBtn.classList.toggle('playing', playing);
+            musicBtn.setAttribute('aria-pressed', playing);
+            musicBtn.setAttribute('aria-label', playing ? 'Остановить музыку' : 'Включить музыку');
+        }
 
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().catch(() => {});
+            } else {
+                music.pause();
+            }
+        });
 
+        music.addEventListener('play', updateMusicBtn);
+        music.addEventListener('pause', updateMusicBtn);
+        updateMusicBtn();
+    }
+(function () {
+    const quizEl = document.getElementById('quiz');
+    if (!quizEl) return;
+
+    const questions = [
+        { q: 'Что означает аббревиатура GPU?',
+          a: ['Графический процессор', 'Центральный процессор', 'Оперативная память', 'Блок питания'], c: 0 },
+        { q: 'Какой тип накопителя обычно самый быстрый?',
+          a: ['SSD NVMe', 'HDD 7200 об/мин', 'DVD-привод', 'Флешка USB 2.0'], c: 0 },
+        { q: 'Для чего нужна термопаста?',
+          a: ['Для передачи тепла от процессора к кулеру', 'Для склейки деталей', 'Для защиты от пыли', 'Для разгона процессора'], c: 0 },
+        { q: 'В какой слот на материнской плате обычно ставят видеокарту?',
+          a: ['PCI Express x16', 'SATA', 'M.2 для Wi-Fi', 'DIMM'], c: 0 },
+        { q: 'Какая память очищается при выключении компьютера?',
+          a: ['Оперативная (RAM)', 'SSD', 'HDD', 'Флеш-накопитель'], c: 0 },
+        { q: 'Что означает RGB в подсветке?',
+          a: ['Красный, зелёный, синий', 'Быстрый графический буфер', 'Режим Gaming-Boost', 'Радиатор с гибким блоком'], c: 0 },
+        { q: 'В каких единицах измеряют частоту процессора?',
+          a: ['Герцы (ГГц)', 'Ватты', 'Вольты', 'Байты'], c: 0 },
+        { q: 'Сколько бит в одном байте?',
+          a: ['8', '4', '16', '10'], c: 0 }
+    ];
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const optionBtns = [...optionsEl.querySelectorAll('.option')];
+    const nextQ = document.getElementById('next-btn');
+    const scoreEl = document.getElementById('score');
+
+    let order, index, score, current, answered;
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function updateScore() {
+        scoreEl.textContent = ` ${score} / ${questions.length}`;
+    }
+
+    function start() {
+        order = shuffle(questions);
+        index = 0;
+        score = 0;
+        updateScore();
+        optionsEl.style.display = '';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const item = order[index];
+        const correctText = item.a[item.c];
+        current = { correctText, answers: shuffle(item.a) };
+        answered = false;
+
+        questionEl.dataset.progress = `Вопрос ${index + 1} / ${order.length}`;
+        questionEl.textContent = item.q;
+
+        optionBtns.forEach((btn, i) => {
+            btn.textContent = current.answers[i];
+            btn.disabled = false;
+            btn.classList.remove('correct', 'wrong');
+        });
+
+        nextQ.style.display = 'none';
+    }
+
+    function choose(btn) {
+        if (answered) return;
+        answered = true;
+
+        const isRight = btn.textContent === current.correctText;
+        if (isRight) {
+            score++;
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('wrong');
+            optionBtns.find(b => b.textContent === current.correctText).classList.add('correct');
+        }
+
+        optionBtns.forEach(b => b.disabled = true);
+        updateScore();
+
+        nextQ.textContent = index === order.length - 1 ? 'Результат' : 'Дальше';
+        nextQ.style.display = 'inline-block';
+    }
+
+    function finish() {
+        const ratio = score / order.length;
+        const msg = ratio >= 0.8 ? 'Ты настоящий эксперт по ПК!'
+                  : ratio >= 0.5 ? 'Неплохо, но можно лучше!'
+                  : 'Есть куда расти — попробуй ещё раз!';
+
+        questionEl.dataset.progress = 'Квиз окончен';
+        questionEl.textContent = msg;
+        optionsEl.style.display = 'none';
+        nextQ.textContent = 'Играть снова';
+        nextQ.style.display = 'inline-block';
+        nextQ.dataset.restart = '1';
+    }
+
+    optionBtns.forEach(btn => btn.addEventListener('click', () => choose(btn)));
+
+    nextQ.addEventListener('click', () => {
+        if (nextQ.dataset.restart) {
+            delete nextQ.dataset.restart;
+            start();
+        } else if (index < order.length - 1) {
+            index++;
+            showQuestion();
+        } else {
+            finish();
+        }
+    });
+
+    start();
+})();

@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <audio id="background-music" loop>
+        <source src="Chris_Christodoulou_-_The_Rain_Formerly_Known_as_Purple.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="bg-figures" aria-hidden="true">
         <div class="scan"></div>
         <div class="fig f-bars"></div>
@@ -56,7 +61,6 @@
         <div class="fig f-star s4"></div>
     </div>
     <header>
- 
     <div class="orb"></div>
     <div class="brand">
         <a href="index.html" class="logo">MEGA-PC</a>
@@ -73,7 +77,11 @@
         <input type="text" id="searchInput" placeholder="Поиск">
         <button onclick="searchPC()">Найти</button>
     </div>
-        <button class="theme" onclick="toggleDarkMode()"></button>
+    
+    <div class="header-btns">
+    <button class="theme" onclick="toggleDarkMode()"></button>
+    <button class="music" id="musicToggle" aria-label="Включить музыку" aria-pressed="false">▶</button>
+    </div>
     </header>
     <main>
         <H1 class="logo">MEGA-PC</H1>
@@ -99,6 +107,19 @@
         </div>
         <button class="prev"></button>
          <button class="next"></button>
+    </div>
+
+    <div id="quiz">
+        <h2>Угадай факт о пк</h2>
+        <div id="question"></div>
+        <div id="options">
+            <button class="option"></button>
+            <button class="option"></button>
+            <button class="option"></button>
+            <button class="option"></button>
+        </div>
+        <button id="next-btn" style="display: none;">Дальше</button>
+        <div id="result">Твой результат:<span id="score">0</span></div>
     </div>
 
 
