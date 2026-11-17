@@ -374,7 +374,6 @@ function generateDownpours() {
 function drawDownpours() {
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = 'rgba(27, 27, 184, .6)';
-    
     for (let i = 0; i < numberOfDownpours; i++) {
         const downpour = downpours[i];
         // Рисуем прямоугольник вместо круга
@@ -413,3 +412,25 @@ window.addEventListener('resize', function() {
     generateDownpours();
 });
 
+function updateVisibility() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    const active = [];
+    if (document.getElementById('filtermosh').checked) active.push('mosh');
+    if (document.getElementById('filtertiho').checked) active.push('tiho');
+    if (document.getElementById('filtermain').checked) active.push('main');
+
+    document.querySelectorAll('.setup').forEach(function (setup) {
+        const title = setup.querySelector('h2').textContent.toLowerCase();
+        const description = setup.querySelector('p').textContent.toLowerCase();
+        const categories = (setup.dataset.category || '').split(' ');
+
+        const matchesSearch = title.includes(query) || description.includes(query);
+        const matchesFilter = active.length === 0 || active.some(c => categories.includes(c));
+
+        setup.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
+    });
+}
+
+function searchPC() { updateVisibility(); }
+function applyFilter() { updateVisibility(); }

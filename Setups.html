@@ -79,6 +79,12 @@
         <input type="text" id="searchInput" placeholder="Поиск">
         <button onclick="searchPC()">Найти</button>
     </div>
+    <div class="filter">
+  <label><input type="checkbox" id="filtermosh"> Мощные</label>
+  <label><input type="checkbox" id="filtertiho"> Тихие</label>
+  <label><input type="checkbox" id="filtermain"> Стильные</label>
+  <button onclick="applyFilter()" class="filter-button">Применить фильтр</button>
+    </div>
 
     <div class="header-btns">
     <button class="theme" onclick="toggleDarkMode()"></button>
@@ -86,7 +92,7 @@
     </div>
     </header>
     <main>
-        <div class="setup">
+        <div class="setup" data-category="mosh main">
             <div class="shot"><img src="pc1.png" alt="пк 1"></div>
             <h2>Спектр</h2>
             <p>Визуальный шедевр в стеклянном корпусе-аквариуме. Фокус на безупречный кабель-менеджмент, кастомное жидкостное охлаждение и синхронизированную палитру подсветки кулеров, создающую мягкое свечение.</p>
@@ -105,7 +111,7 @@
 
             <a href="#" onclick="showPC('пк 1','pc1.png','это пк')">Подробнее</a>
         </div>
-        <div class="setup">
+        <div class="setup" data-category="tiho">
             <div class="shot"><img src="pc2.png" alt="пк 2"></div>
             <h2>Монолит</h2>
             <p>Строгий рабочий центр в премиальном геометричном корпусе. Здесь доминирует монументальный черный цвет, дорогая металлическая отделка и скрытая мощь.</p>
@@ -123,7 +129,7 @@
             </div>
             <a href="#" onclick="showPC('пк 2','pc2.png','это пк')">Подробнее</a>
         </div>
-        <div class="setup">
+        <div class="setup" data-category="tiho">
             <div class="shot"><img src="pc3.png" alt="пк 3"></div>
             <h2>Эфир</h2>
             <p>Абсолютно бесшумный ПК для глубокой концентрации. Корпус оптимизирован под тихую работу.</p>
@@ -141,7 +147,7 @@
             </div>
             <a href="#" onclick="showPC('пк 3','pc3.png','это пк')">Подробнее</a>
         </div>
-        <div class="setup">
+        <div class="setup" data-category="mosh">
             <div class="shot"><img src="pc4.png" alt="пк 4"></div>
             <h2>Вулкан</h2>
             <p>Бескомпромиссная игровая машина. Внутри скрывается раскаленное железо топового уровня, выдающее максимальный FPS, а кастомный контур СЖО с яркой огненно-желтой жидкостью буквально визуализирует бушующую внутри магму и энергию.</p>

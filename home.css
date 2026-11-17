@@ -449,6 +449,28 @@
             outline: 3px dashed var(--sky);
             outline-offset: 3px;
         }
+        .filter {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #b9c3ff;
+        }
+
+        .filter-button {
+        font-family: 'Comic Sans MS', cursive;
+        background-color: rgba(27, 27, 184, .6);
+        color: #FFF;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .filter-button:hover {
+        background-color: rgb(61, 28, 227);
+        }
+
 
         /* ---------- Main ---------- */
         main{
