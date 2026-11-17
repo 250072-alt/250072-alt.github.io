@@ -314,6 +314,13 @@
             outline-offset: 4px;
         }
 
+        canvas#downpour{
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
         .brand{
             display: inline-flex;
             align-items: center;

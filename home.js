@@ -348,3 +348,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     start();
 })();
+const canvas = document.getElementById('downpour');
+const ctx = canvas.getContext('2d');
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+const downpours = [];
+const numberOfDownpours = 250;
+
+function generateDownpours() {
+    for (let i = 0; i < numberOfDownpours; i++) {
+        downpours.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            width: Math.random() * 1.5 + 1,    // Ширина прямоугольника
+            height: Math.random() * 15 + 10,   // Высота прямоугольника
+            speed: Math.random() * 3 + 2       // Скорость падения
+        });
+    }
+}
+
+function drawDownpours() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(27, 27, 184, .6)';
+    
+    for (let i = 0; i < numberOfDownpours; i++) {
+        const downpour = downpours[i];
+        // Рисуем прямоугольник вместо круга
+        ctx.fillRect(downpour.x, downpour.y, downpour.width, downpour.height);
+    }
+    
+    moveDownpours();
+}
+
+function moveDownpours() {
+    for (let i = 0; i < numberOfDownpours; i++) {
+        const downpour = downpours[i];
+        downpour.y += downpour.speed;
+        
+        // Возвращаем каплю наверх с учетом ее высоты
+        if (downpour.y > height) {
+            downpour.y = -downpour.height;
+        }
+    }
+}
+
+function animateDownpours() {
+    drawDownpours();
+    requestAnimationFrame(animateDownpours);
+}
+
+generateDownpours();
+animateDownpours();
+
+window.addEventListener('resize', function() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    downpours.length = 0;
+    generateDownpours();
+});
+
